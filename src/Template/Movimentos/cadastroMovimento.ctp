@@ -119,7 +119,7 @@
                 <div class="btn-group" role="group" aria-label="...">
                     <button type="button" id="btnVoltar" class="btn btn-warning" onclick="javascript:history.go(-1);"><i class="glyphicon glyphicon-arrow-left"></i> Voltar</button>
                     <button type="button" id="btnLimpar" class="btn btn-danger" onclick="resetform();"><i class="glyphicon glyphicon-trash"></i> Limpar</button>
-                    <button type="button" id="btnSalvar" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> Salvar</button>
+                    <button type="submit" id="btnSalvar" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> Salvar</button>
                     <button type="button" id="btnEnviar" class="btn btn-success"><i class="glyphicon glyphicon-send"></i> Enviar</button>
                 </div>
             </div>

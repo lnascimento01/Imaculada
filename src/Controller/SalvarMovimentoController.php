@@ -8,42 +8,27 @@ use Cake\Controller\Controller;
 class SalvarMovimentoController extends Controller {
 
     public function index() {
-        $tableMovimentos = TableRegistry::get('movimentos');
-        $movimentos = $tableMovimentos->newEntity();
 
-        $tableValoresMovimento = TableRegistry::get('valores_movimento');
-        $valores = $tableValoresMovimento->newEntity();
+        print_r('passou');
+        $data = json_decode($_POST['data']);
+        print_r($data->pgEntrada);
+//            foreach ($data[0]['pgEntrada'] as $dt){
+//                            echo($dt);
+//            }
+//        $this->response->body(json_encode($data));
+//        return $this->response;
+//        exit();
+
+        $dataMovimentos = TableRegistry::get('movimentos');
+        $movimentos = $dataMovimentos->newEntity();
 
         $movimentos->DATA_CRIACAO = date("Y-m-d H:i:s");
         $movimentos->STATUS = FALSE;
-        $movimentos->FUNDO_CAIXA = $_POST['txtFundoCaixa'];
+        $movimentos->FUNDO_CAIXA = $data->pgEntrada;
 
-        $movimentoSalvo = $tableMovimentos->save($movimentos);
-        if ($movimentoSalvo) {
-            // The $article entity contains the id now
-            $idMovimento = $movimentoSalvo->id;
-
-//            $tableItensMovimento = TableRegistry::get('itens_movimento');
-//            $itens = $tableItensMovimento->newEntity();
-//
-//            $itens->ID_MOVIMENTO = $idMovimento;
-//            $itens->ID_ITEM = $idMovimento;
-//            
-//            if ($tableItensMovimento->save($itens)) {
-//                // The $article entity contains the id now
-//                $idItens = $itens->id;
-//            }
-//            if ($tableValoresMovimento->save($valores)) {
-//                // The $article entity contains the id now
-//                $idValores = $valores->id;
-//            }
+        if ($dataMovimentos->save($movimentos)) {
+            echo(intval($movimentos->ID));
         }
     }
 
-//    public function saveMovimentos($param) {
-//        if ($tableMovimentos->save($movimentos)) {
-//            // The $article entity contains the id now
-//            $idMovimento = $movimentos->id;
-//        }
-//    }
-}
+};
