@@ -1183,7 +1183,7 @@
               .triggerNative('change');
           }
         }
-        changeLink(that.$element.prop('selectedIndex'), that.$element.val(), that.$button.attr('id'));
+        addFieldCerveja(that.$element.prop('selectedIndex'), that.$element.val(), that.$button.attr('id'));
       });
 
       this.$menu.on('click', 'li.disabled a, .popover-title, .popover-title :not(.close)', function (e) {

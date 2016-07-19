@@ -77,6 +77,8 @@ Router::connect('/', ['controller' => 'Cadastro', 'action' => 'index']);
 Router::connect('/cadastro/movimentos', ['controller' => 'CadastroMovimento', 'action' => 'index']);
 Router::connect('/cadastro/movimentos/salvar', ['controller' => 'SalvarMovimento', 'action' => 'index']);
 Router::connect('/lista/movimentos', ['controller' => 'ListaMovimentos', 'action' => 'index']);
+Router::connect('/envia/email', ['controller' => 'EnviaEmail', 'action' => 'index']);
+Router::connect('/email', ['controller' => 'Email', 'action' => 'index']);
 /**
  * Load all plugin routes.  See the Plugin documentation on
  * how to customize the loading of plugin routes.

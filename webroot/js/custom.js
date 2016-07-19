@@ -1,4 +1,33 @@
-function changeLink(id, item, sentido) {
+$(document).ready(function () {
+    if ($('#listaMovimentos').val() !== undefined) {
+        $('#listaMovimentos').dataTable({
+            "oLanguage": {
+                "sSearch": "Procurar: ",
+                "sLengthMenu": "Mostrar _MENU_ ",
+                "sInfo": "Listando _START_ até _END_ de _TOTAL_ Movimentos",
+                "sInfoEmpty": "Nenhum resultado encontrado",
+                "sInfoFiltered": " - Filtrando de _MAX_ resultados",
+//         "sInfoPostFix": "Resultados provenientes de informações Registradas.",
+                "sLoadingRecords": "Por Favor aguarde - carregando...",
+                "sProcessing": "DataTables ocupado no momento",
+                "sZeroRecords": "Sem Resultados",
+                "sEmptyTable": "Sem dados disponíveis no banco",
+                "oPaginate": {
+                    "sFirst": "Página 1",
+                    "sLast": "Ultima Página",
+                    "sNext": "Proxima",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": " - click para ordem crescente",
+                    "sSortDescending": " - click para ordem decrescente"
+                }
+            }
+        });
+    }
+
+});
+function addFieldCerveja(id, item, sentido) {
     if (sentido == 'cboEntrada') {
         var listaSentido = 'Entrada'
     } else if (sentido == 'cboSaida') {
@@ -10,13 +39,13 @@ function changeLink(id, item, sentido) {
                                         <div id="remover" class="remove' + listaSentido + id + '">\
                                         <div class="box-valores valores-sm" id="remove' + id + '">\
                                         <a href="#" class="remove_campo" id="remove' + listaSentido + id + '" onclick="remover(\'' + listaSentido + '\',\'' + id + '\');">\
-                                        <label id="' + id + '" class="label label-primary" for="txtMetodo' + item + '">' + item + '</label></a>\
+                                        <label id="' + id + '" class="label label-primary" for="txtCerveja' + item + '">' + item + '</label></a>\
                                         <div class="col-md-1">\
-                                        <input id="txtMetodo-" name="txtMetodo' + item + '" class="requiredField" value="0" style="width: 60px">\
+                                        <input id="txtCerveja-' + id + '" name="txtCerveja' + listaSentido + item + '" class="requiredField" value="0" style="width: 60px">\
                                         </div>\
                                         </div>\
                                         </div>\
-                        ');
+                                        ');
     }
 }
 ;
@@ -37,17 +66,12 @@ function clickBtn(valor) {
     }
 }
 ;
-$(document).ready(function () {
-//    $('#listaMovimentos').dataTable();
-});
-
 function itemConstrutor(nome, valor, id) {
     this.nome = nome;
-    this.valor = valor;
+    this.valor = valor.replace('.', '').replace('R$', '').replace(',','.');
     this.id = id;
 }
 ;
-
 function valoresBox1() {
 
     var box = [];
@@ -59,7 +83,6 @@ function valoresBox1() {
     return box;
 }
 ;
-
 function valoresBox2() {
     var box = [];
     $('#box-2 input').each(function (e) {
@@ -70,16 +93,13 @@ function valoresBox2() {
     return box;
 }
 ;
-
 function valoresBox3() {
     var box = [];
-    $('#box-3 input').each(function (e) {
-        if ($(this).attr('id') !== undefined) {
+    $('#listaEntrada input').each(function (e) {
+        if ($(this).attr('id') != undefined) {
             var id = $(this).attr('id');
-        } else {
-            var id = 'txtMetodo-';
+            var data = new itemConstrutor($(this).attr('name'), $(this).val(), id.replace('txtCerveja-', ''));
         }
-        var data = new itemConstrutor($(this).attr('name'), $(this).val(), id.replace('txtMetodo-', ''));
         box.push(data);
     });
     return box;
@@ -87,30 +107,28 @@ function valoresBox3() {
 ;
 function valoresBox4() {
     var box = [];
-    $('#box-4 input').each(function (e) {
-        if ($(this).attr('id') !== undefined) {
+    $('#listaSaida input').each(function (e) {
+        if ($(this).attr('id') != undefined) {
             var id = $(this).attr('id');
-        } else {
-            var id = 'txtMetodo-';
+            var data = new itemConstrutor($(this).attr('name'), $(this).val(), id.replace('txtCerveja-', ''));
         }
-        var data = new itemConstrutor($(this).attr('name'), $(this).val(), id.replace('txtMetodo-', ''));
         box.push(data);
     });
     return box;
 }
 ;
-
-$("#formMovimento").submit(function (e) {
+$("#btnSalvar").on('click', function (e) {
     e.preventDefault();
     var dataBox = {
         "pgEntrada": valoresBox1(),
         "pgSaida": valoresBox2(),
         "cvjEntrada": valoresBox3(),
         "cvjSaida": valoresBox4(),
-        "fundoCaixa": $('#txtFundoCaixa').val()
+        "fundoCaixa": $('#txtFundoCaixa').val().replace('.', '').replace('R$', '').replace(',','.')
     };
+    console.log(dataBox);
+
     var data = JSON.stringify(dataBox);
-    console.log(data);
     $.ajax(
             {
                 url: "movimentos/salvar",
@@ -118,7 +136,11 @@ $("#formMovimento").submit(function (e) {
                 dataType: 'JSON',
                 data: {data: data},
                 success: function (data) {
-                    console.log(data);
+                    resetform();
+                    window.location.reload();
+                },
+                error: function () {
+                    alert('Houve um erro ao salvar o movimento!');
                 }
             });
-});        
+});

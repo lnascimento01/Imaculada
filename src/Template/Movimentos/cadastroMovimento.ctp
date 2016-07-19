@@ -1,9 +1,10 @@
 <link href="/css/style.css?v=1" rel="stylesheet">
 <script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/MascaraValores.js"></script>
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
 <!-- Latest compiled and minified JavaScript -->
-<script src="/bootstrap/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="/bootstrap/select/dist/css/bootstrap-select.css">
 <script src="/js/jquery.serializeJSON.min.js"></script>
@@ -33,10 +34,11 @@
                             <div class="box-valores">
                                 <label class="label label-primary" for="txtMetodo<?php echo($abv) ?>"><?php echo($abv) ?></label>  
                                 <div class="col-md-1">
-                                    <input id="txtMetodo-<?php echo($id) ?>" name="txtMetodo<?php echo($abv) ?>" class="form-control input-md requiredField" value="0">
+                                    <input id="txtMetodo-<?php echo($id) ?>" name="txtMetodo<?php echo($abv) ?>" name="valores" class="form-control input-md requiredField" value="R$ 0,00"  maxlength="11" >
                                 </div>
                             </div>
-                        <?php }
+                            <?php
+                        }
                     }
                     ?></div>
                 <div id="box-2" class="div-conteudo">
@@ -49,10 +51,11 @@
                             <div class="box-valores">
                                 <label class="label label-primary" for="txtMetodo<?php echo($abv) ?>"><?php echo($abv) ?></label>  
                                 <div class="col-md-1">
-                                    <input id="txtMetodo-<?php echo($id) ?>" name="txtMetodo<?php echo($abv) ?>" class="form-control input-md requiredField" value="0">
+                                    <input id="txtMetodo-<?php echo($id) ?>" name="txtMetodo<?php echo($abv) ?>" name="valores" class="form-control input-md requiredField" value="R$ 0,00" maxlength="11" >
                                 </div>
                             </div>
-                        <?php }
+                            <?php
+                        }
                     }
                     ?>
                 </div>
@@ -73,8 +76,8 @@
                             $nome = $cerveja->NOME;
                             $id = $cerveja->ID;
                             ?>
-                            <option id="E<?php echo $id ?>"><?php echo $nome ?></option>
-<?php } ?>
+                            <option id="txtCerveja-<?php echo $id ?>"><?php echo $nome ?></option>
+                        <?php } ?>
                     </select>
                     <table id="listaEntrada" border="0">
                     </table>
@@ -86,8 +89,8 @@
                             $nome = $cerveja->NOME;
                             $id = $cerveja->ID;
                             ?>
-                            <option id="S<?php echo $id ?>" name="Saida"><?php echo $nome ?></option>
-<?php } ?>
+                            <option id="txtCerveja-<?php echo $id ?>" name="Saida"><?php echo $nome ?></option>
+                        <?php } ?>
                     </select>
                     <table id="listaSaida" border="0">
                     </table>
@@ -105,7 +108,7 @@
                 <div class="box-valores">
                     <label class="label label-primary" for="txtFundoCaixa">Fundo de Caixa</label>  
                     <div class="col-md-1">
-                        <input id="txtFundoCaixa" name="txtFundoCaixa" class="form-control col-sm-2" value="0">
+                        <input id="txtFundoCaixa" name="valores" class="form-control col-sm-2" value="R$ 0,00" maxlength="11">
                     </div>
                 </div>
                 <div class="box-valores">
@@ -119,7 +122,7 @@
                 <div class="btn-group" role="group" aria-label="...">
                     <button type="button" id="btnVoltar" class="btn btn-warning" onclick="javascript:history.go(-1);"><i class="glyphicon glyphicon-arrow-left"></i> Voltar</button>
                     <button type="button" id="btnLimpar" class="btn btn-danger" onclick="resetform();"><i class="glyphicon glyphicon-trash"></i> Limpar</button>
-                    <button type="submit" id="btnSalvar" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> Salvar</button>
+                    <button type="button" id="btnSalvar" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> Salvar</button>
                     <button type="button" id="btnEnviar" class="btn btn-success"><i class="glyphicon glyphicon-send"></i> Enviar</button>
                 </div>
             </div>
@@ -128,3 +131,12 @@
 </form>
 <script src="/js/custom.js"></script>
 <script src="/bootstrap/select/js/bootstrap-select.js"></script>
+<script type="text/javascript">
+$(function(){
+$( "input[name*='valor']" ).maskMoney({symbol:'R$ ', 
+showSymbol:true, thousands:'.', decimal:',', symbolStay: true});
+
+$( "input[name*='txtMetodo']" ).maskMoney({symbol:'R$ ', 
+showSymbol:true, thousands:'.', decimal:',', symbolStay: true});
+ });
+</script>
